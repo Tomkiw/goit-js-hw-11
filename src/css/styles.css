@@ -57,7 +57,7 @@
   height: 48px;
   display: inline-block;
   position: relative;
-  border: 2px solid #fff;
+  border: 2px solid #000000;
   box-sizing: border-box;
   animation: rotation 2s linear infinite;
   
@@ -73,7 +73,7 @@
   top: 0;
   bottom: 0;
   margin: auto;
-  border: 2px solid #ff3d00;
+  border: 2px solid #ff3c00;
   width: 38px;
   height: 38px;
   animation: rotationBack 1.5s linear infinite;
@@ -120,7 +120,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px
+  margin-top: 40px;
 }
 
 .gallery a {}
