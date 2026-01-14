@@ -1,8 +1,9 @@
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import iziToast from 'izitoast'; // Імпорт бібліотеки iziToast для відображення повідомлень
+import 'izitoast/dist/css/iziToast.min.css'; // Імпорт стилів бібліотеки iziToast
 
-// FUNCTION
+// Імпорт функції для запиту на сервер з файлу pixabay-api.js
 import { getImagesByQuery } from './js/pixabay-api.js';
+// Імпорт функцій для роботи з інтерфейсом (DOM) з файлу render-functions.js
 import {
   createGallery,
   clearGallery,
@@ -10,50 +11,53 @@ import {
   hideLoader,
 } from './js/render-functions.js';
 
-const form = document.querySelector('.form');
+const form = document.querySelector('.form'); // Отримання елемента форми з DOM
 
+// Додавання слухача події 'submit' на форму
 form.addEventListener('submit', event => {
-  event.preventDefault();
+  event.preventDefault(); // Скасування перезавантаження сторінки при відправці форми
 
-  const input = event.target.querySelector('input');
-  const query = input.value.trim();
+  const input = event.target.querySelector('input'); // Пошук поля вводу всередині форми
+  const query = input.value.trim(); // Отримання введеного тексту без зайвих пробілів
 
+  // Перевірка: якщо поле порожнє, виводимо попередження
   if (!query) {
     iziToast.warning({
-      title: 'Warning',
-      message: 'Please enter a search query!',
+      title: 'Warning', // Заголовок попередження
+      message: 'Please enter a search query!', // Текст попередження
     });
-    return;
+    return; // Перериваємо виконання функції
   }
-  // 1. підготовка інтерфейсу
+  
+  // 1. Підготовка інтерфейсу: очищення галереї та показ лоадера
   clearGallery();
   showLoader();
 
-  // 2. запит на сервер
+  // 2. Виконання запиту на сервер за введеним словом
   getImagesByQuery(query)
-    .then(data => {
+    .then(data => { // Успішна відповідь від сервера
+      // Перевірка: якщо масив зображень порожній
       if (data.hits.length === 0) {
         iziToast.error({
-          title: 'Error',
+          title: 'Error', // Заголовок помилки
           message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          position: 'topRight',
+            'Sorry, there are no images matching your search query. Please try again!', // Текст помилки
+          position: 'topRight', // Позиція повідомлення
         });
-        return;
+        return; // Вихід, якщо нічого не знайдено
       }
-      // Якщо картинки є — рендеримо їх
-      createGallery(data.hits);
+      // Якщо зображення є — викликаємо функцію рендеру
+      createGallery(data.hits); 
     })
-    .catch(error => {
-      console.error(error);
+    .catch(error => { // Обробка помилки запиту
+      console.error(error); // Вивід помилки в консоль
       iziToast.error({
-        message: 'Something went wrong! Please try again later.',
-        position: 'topRight',
+        message: 'Something went wrong! Please try again later.', // Повідомлення для користувача
+        position: 'topRight', // Розташування повідомлення
       });
     })
-    .finally(() => {
-      hideLoader();
-
-      form.reset();
+    .finally(() => { // Виконується завжди (успіх чи помилка)
+      hideLoader(); // Ховаємо лоадер
+      form.reset(); // Очищуємо форму
     });
 });

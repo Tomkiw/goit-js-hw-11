@@ -1,19 +1,21 @@
-// У файлі render-functions.js створи екземпляр SimpleLightbox для роботи з модальним вікном та зберігай функції для відображення елементів інтерфейсу:
+import SimpleLightbox from 'simplelightbox'; // Імпорт бібліотеки для модального вікна (галереї)
+import 'simplelightbox/dist/simple-lightbox.min.css'; // Імпорт CSS стилів для SimpleLightbox
 
-// import { spread } from "axios"
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
+// Ініціалізація бібліотеки SimpleLightbox
+// Створюємо екземпляр один раз поза функціями, щоб не перестворювати його при кожному рендері
 let lightbox = new SimpleLightbox('.gallery a', {
-  captions: true,
-  captionsData: 'alt',
-  captionDelay: 250,
+  captions: true, // Вмикаємо підписи під зображеннями
+  captionsData: 'alt', // Текст підпису береться з атрибута 'alt'
+  captionDelay: 250, // Затримка появи підпису (250 мс)
 });
 
-const galleryContainer = document.querySelector('.gallery');
-const loader = document.querySelector('.loader');
+// Отримуємо посилання на DOM-елементи
+const galleryContainer = document.querySelector('.gallery'); // Контейнер (ul), куди будемо додавати картинки
+const loader = document.querySelector('.loader'); // Елемент лоадера (індикатор завантаження)
 
+// Функція для створення розмітки галереї
 export function createGallery(images) {
+  // Створюємо HTML-рядок з карток зображень, використовуючи метод map
   const markup = images
     .map(
       image =>
@@ -52,22 +54,29 @@ export function createGallery(images) {
 </div>
       </li>`
     )
-    .join('');
+    .join(''); // Об'єднуємо масив рядків в один суцільний рядок HTML
 
+  // Вставляємо згенеровану розмітку в кінець контейнера галереї
   galleryContainer.insertAdjacentHTML('beforeend', markup);
+  
+  // Оновлюємо SimpleLightbox, щоб він "побачив" нові додані зображення
+  // Це обов'язково робити після додавання нових елементів у DOM
   lightbox.refresh();
 }
 
+// Функція для очищення галереї перед новим пошуком
 export function clearGallery() {
-  galleryContainer.innerHTML = '';
+  galleryContainer.innerHTML = ''; // Видаляємо весь HTML вміст контейнера
 }
 
+// Функція для показу лоадера
 export const showLoader = () => {
-  // Припускаємо, що у CSS є клас .is-hidden або подібний, або ми просто видаляємо display: none
-  // Тут приклад, якщо ми додаємо клас, який робить його видимим, або прибираємо hidden
+  // Видаляємо клас 'is-hidden', щоб зробити лоадер видимим
   loader.classList.remove('is-hidden');
 };
 
+// Функція для приховування лоадера
 export const hideLoader = () => {
+  // Додаємо клас 'is-hidden', щоб сховати лоадер
   loader.classList.add('is-hidden');
 };
