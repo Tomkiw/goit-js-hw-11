@@ -3,7 +3,7 @@
 // import { spread } from "axios"
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
- 
+
 let lightbox = new SimpleLightbox('.gallery a', {
   captions: true,
   captionsData: 'alt',
@@ -14,7 +14,8 @@ const galleryContainer = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 
 export function createGallery(images) {
-  const markup = images.map(
+  const markup = images
+    .map(
       image =>
         `<li class="gallery-item">
       <a class="gallery-link" href="${image.largeImageURL}">
@@ -50,7 +51,8 @@ export function createGallery(images) {
   </ul>
 </div>
       </li>`
-    ).join('');
+    )
+    .join('');
 
   galleryContainer.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();

@@ -60,7 +60,6 @@
   border: 2px solid #000000;
   box-sizing: border-box;
   animation: rotation 2s linear infinite;
-  
 }
 
 .loader::after,
@@ -115,7 +114,7 @@
   /* або visibility: hidden; або opacity: 0; */
 }
 
-.load-galler{
+.load-galler {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,16 +122,17 @@
   margin-top: 40px;
 }
 
-.gallery a {}
+.gallery a {
+}
 
 .gallery {
   gap: 24px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
- 
+  grid-template-columns: repeat(3, 1fr);
 }
 
-.gallery img {}
+.gallery img {
+}
 
 .gallery-item {
   width: 360px;
